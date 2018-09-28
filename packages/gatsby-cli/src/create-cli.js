@@ -244,6 +244,13 @@ function buildLocalCommands(cli, isLocalSite) {
   })
 
   cli.command({
+    command: `plugin [action] [plugin-name]`,
+    desc: `Manage Gatsby plugin to package.json and gatsby-config.js.`,
+    handler: getCommandHandler(`plugin`),
+  })
+
+
+  cli.command({
     command: `repl`,
     desc: `Get a node repl with context of Gatsby environment, see (add docs link here)`,
     handler: getCommandHandler(`repl`, (args, cmd) => {
