@@ -5,7 +5,9 @@ const colors = {
   // @see https://www.figma.com/file/J6IYJEtdRmwJQOrcZ2DfvxDD/Gatsby
   gatsby: `#663399`, // was #744c9e
   gatsbyDark: `#442266`,
+  gatsbyDarker: `#221133`,
   lemon: `#ffdf37`,
+  mint: `#73fff7`,
   lilac: `#8c65b3`,
   lavender: `#b190d5`,
   wisteria: `#ccb2e5`,
@@ -26,15 +28,17 @@ const colors = {
   },
   gray: {
     dark: gray(8, 270),
-    copy: gray(12, 270),
+    copy: gray(16, 270),
     lightCopy: gray(35, 270),
     calm: gray(46, 270),
     bright: gray(64, 270),
     light: gray(80, 270),
     superLight: gray(96, 270),
   },
+  white: `#ffffff`,
   code: {
-    bg: `#fdfaf6`, // colors.a[0] #fcf6f0
+    bgInline: `#fbf2e9`,
+    bg: `#fdfaf6`,
     border: `#faede5`,
     text: `#866c5b`,
     remove: `#e45c5c`,

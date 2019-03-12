@@ -1,22 +1,23 @@
 import React from "react"
 import PropTypes from "prop-types"
-import styled from "react-emotion"
+import styled from "@emotion/styled"
 
-import presets, { colors } from "../../utils/presets"
-import { rhythm, options } from "../../utils/typography"
+import {
+  HorizontalScroller,
+  HorizontalScrollerContent,
+} from "../shared/horizontal-scroller"
+
+import presets, { colors, space } from "../../utils/presets"
+import { rhythm } from "../../utils/typography"
 import { scrollbarStyles } from "../../utils/styles"
 import { SCROLLER_CLASSNAME } from "../../utils/scrollers-observer"
 
-export const EcosystemFeaturedItemsRootBase = styled(`div`)`
-  overflow-x: scroll;
-  margin: ${rhythm(0.1)} -${rhythm(options.blockMarginBottom)};
-  -webkit-overflow-scrolling: touch;
-`
+const EcosystemFeaturedItemsRoot = styled(HorizontalScroller)`
+  margin: 0 -${rhythm(space[6])};
 
-const EcosystemFeaturedItemsRoot = styled(EcosystemFeaturedItemsRootBase)`
-  ${presets.Tablet} {
+  ${presets.Md} {
     border-top: 1px solid ${colors.gray.superLight};
-    margin-top: ${rhythm(0.4)};
+    margin-top: ${rhythm(space[3])};
     margin-bottom: 0;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -28,11 +29,14 @@ export const ListBase = styled(`ul`)`
   display: inline-flex;
   list-style: none;
   margin: 0;
-  padding: 0 calc(${rhythm(options.blockMarginBottom)} - 5px) 4px;
+  padding: 0 calc(${rhythm(space[6])} - 5px) 4px;
 `
 
-const List = styled(ListBase)`
-  ${presets.Tablet} {
+const List = styled(HorizontalScrollerContent)`
+  padding-left: ${rhythm(space[6])};
+  padding-right: ${rhythm(space[6])};
+
+  ${presets.Md} {
     flex-direction: column;
     padding: 0;
     width: 100%;

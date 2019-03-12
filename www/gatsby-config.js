@@ -49,10 +49,17 @@ module.exports = {
     `gatsby-transformer-documentationjs`,
     `gatsby-transformer-yaml`,
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/data/diagram`,
+      },
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
           `gatsby-remark-graphviz`,
+          `gatsby-remark-embed-video`,
           `gatsby-remark-code-titles`,
           {
             resolve: `gatsby-remark-images`,
@@ -85,6 +92,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-catch-links`,
+    `gatsby-plugin-layout`,
     `gatsby-plugin-lodash`,
     {
       resolve: `gatsby-plugin-manifest`,
@@ -107,6 +115,7 @@ module.exports = {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         trackingId: `UA-93349937-5`,
+        anonymize: true,
       },
     },
     {

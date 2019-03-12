@@ -3,9 +3,10 @@ import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 
 import styles from "./styles"
-import presets from "../../utils/presets"
+import presets, { colors, transition } from "../../utils/presets"
+import { options } from "../../utils/typography"
 
-const ThumbnailLink = ({ slug, image, title, children }) => {
+const ThumbnailLink = ({ slug, image, title, children, state }) => {
   let screenshot = false
 
   // site showcase
@@ -19,14 +20,16 @@ const ThumbnailLink = ({ slug, image, title, children }) => {
   return (
     <Link
       to={slug}
-      state={{ isModal: true }}
+      state={{ isModal: true, ...state }}
       css={{
         ...styles.withTitleHover,
+        lineHeight: presets.lineHeights.dense,
+        fontFamily: options.headerFontFamily.join(`,`),
         "&&": {
           borderBottom: `none`,
-          boxShadow: `none`,
-          transition: `all ${presets.animation.speedDefault} ${
-            presets.animation.curveDefault
+          color: colors.gray.dark,
+          transition: `all ${transition.speed.default} ${
+            transition.curve.default
           }`,
           "&:hover": { ...styles.screenshotHover },
           "&:hover ~ .meta > .featured-site": {

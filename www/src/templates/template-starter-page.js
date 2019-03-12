@@ -1,5 +1,5 @@
 import React from "react"
-import Helmet from "react-helmet"
+import { Helmet } from "react-helmet"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -91,7 +91,7 @@ class StarterTemplate extends React.Component {
               css={{
                 display: `flex`,
                 flexDirection: `column-reverse`,
-                [presets.Phablet]: {
+                [presets.Sm]: {
                   flexDirection: `column`,
                 },
               }}

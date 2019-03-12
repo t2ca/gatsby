@@ -13,6 +13,7 @@ const {
   clearUnionTypes,
 } = require(`../infer-graphql-type`)
 const { clearTypeNames } = require(`../create-type-name`)
+require(`../../db/__tests__/fixtures/ensure-loki`)()
 
 function queryResult(nodes, fragment, { types = [], ignoreFields } = {}) {
   const schema = new GraphQLSchema({
@@ -522,6 +523,8 @@ describe(`GraphQL type inferance`, () => {
     beforeEach(() => {
       ;({ store } = require(`../../redux`))
 
+      store.dispatch({ type: `DELETE_CACHE` })
+
       const { setFileNodeRootType } = require(`../types/type-file`)
       const fileType = {
         name: `File`,
@@ -612,6 +615,7 @@ describe(`GraphQL type inferance`, () => {
 
     beforeEach(() => {
       ;({ store } = require(`../../redux`))
+      store.dispatch({ type: `DELETE_CACHE` })
       types = [
         {
           name: `Child`,
@@ -666,6 +670,35 @@ describe(`GraphQL type inferance`, () => {
     it(`Links an array of nodes`, async () => {
       let result = await queryResult(
         [{ linked___NODE: [`child_1`, `child_2`] }],
+        `
+          linked {
+            hair
+          }
+        `,
+        { types }
+      )
+      expect(result.errors).not.toBeDefined()
+      expect(result.data.listNode[0].linked[0].hair).toEqual(`brown`)
+      expect(result.data.listNode[0].linked[1].hair).toEqual(`blonde`)
+    })
+
+    it(`Links nodes by field`, async () => {
+      let result = await queryResult(
+        [{ linked___NODE___hair: `brown` }],
+        `
+          linked {
+            hair
+          }
+        `,
+        { types }
+      )
+      expect(result.errors).not.toBeDefined()
+      expect(result.data.listNode[0].linked.hair).toEqual(`brown`)
+    })
+
+    it(`Links an array of nodes by field`, async () => {
+      let result = await queryResult(
+        [{ linked___NODE___hair: [`brown`, `blonde`] }],
         `
           linked {
             hair

@@ -1,28 +1,25 @@
 import React from "react"
 import PropTypes from "prop-types"
-import styled from "react-emotion"
+import styled from "@emotion/styled"
 import { Link } from "gatsby"
 import Img from "gatsby-image"
+
+import { HorizontalScrollerItem } from "../shared/horizontal-scroller"
 
 import StarIcon from "react-icons/lib/md/star"
 import ArrowDownwardIcon from "react-icons/lib/md/arrow-downward"
 
 import { rhythm, options } from "../../utils/typography"
-import presets, { colors } from "../../utils/presets"
+import presets, { colors, space, transition, radii } from "../../utils/presets"
 
 const MAX_DESCRIPTION_LENGTH = 100
 
-const EcosystemFeaturedItemRoot = styled(`li`)`
-  width: 85vw;
-  margin: 0 2px 0 0;
-  padding: 5px;
+const EcosystemFeaturedItemRoot = styled(HorizontalScrollerItem)`
+  margin-right: ${rhythm(space[6])};
 
-  :last-child {
-    margin-right: 0;
-  }
-
-  ${presets.Tablet} {
+  ${presets.Md} {
     border-bottom: 1px solid ${colors.gray.superLight};
+    box-shadow: none;
     margin: 0;
     padding: 0;
     width: auto;
@@ -30,22 +27,21 @@ const EcosystemFeaturedItemRoot = styled(`li`)`
 `
 
 export const BlockLink = styled(Link)`
-  background: #fff;
-  border-radius: ${presets.radiusLg}px;
+  background: ${colors.white};
+  border-radius: ${radii[2]}px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: ${rhythm(3 / 4)};
+  padding: ${rhythm(space[6])};
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     border-radius: 0;
     box-shadow: none;
-    transition: all ${presets.animation.speedDefault}
-      ${presets.animation.curveDefault};
+    transition: all ${transition.speed.default} ${transition.curve.default};
   }
 
-  ${presets.Desktop} {
+  ${presets.Lg} {
     :hover {
       background: ${colors.ui.whisper};
     }
@@ -59,7 +55,7 @@ const Header = styled(`header`)`
 
   h3 {
     color: ${colors.gatsbyDark};
-    font-size: 1rem;
+    font-size: ${presets.scale[2]};
     margin: 0;
   }
 
@@ -67,8 +63,7 @@ const Header = styled(`header`)`
     align-items: center;
     color: ${colors.lilac};
     display: flex;
-    font-size: 0.8125rem;
-    font-family: ${options.systemFontFamily.join(`,`)};
+    font-size: ${presets.scale[1]};
     padding-left: 5px;
 
     svg {
@@ -85,13 +80,13 @@ const Digest = styled(`div`)`
   flex-grow: 1;
   font-family: ${options.systemFontFamily.join(`,`)};
   justify-content: space-between;
-  padding: ${rhythm(0.5)} 0 0;
+  padding: ${rhythm(space[3])} 0 0;
 `
 
 const Thumbnail = styled(`div`)`
   height: 64px;
-  padding-right: ${rhythm(2 / 3)};
-  margin-top: ${rhythm(1 / 12)};
+  padding-right: ${rhythm(space[4])};
+  margin-top: ${rhythm(space[1])};
 
   img {
     border: 1px solid ${colors.gray.superLight};
@@ -101,7 +96,7 @@ const Thumbnail = styled(`div`)`
 const Description = styled(`p`)`
   color: ${colors.gray.lightCopy};
   flex-grow: 1;
-  font-size: 0.85rem;
+  font-size: ${presets.scale[1]};
   margin: 0;
 `
 

@@ -14,7 +14,7 @@ const createContentDigest = obj =>
 
 exports.sourceNodes = async (
   { actions, getNode, hasNodeChanged, store, cache, createNodeId },
-  { baseUrl, apiBase, basicAuth }
+  { baseUrl, apiBase, basicAuth, filters }
 ) => {
   const { createNode } = actions
 
@@ -50,6 +50,15 @@ exports.sourceNodes = async (
         if (typeof url === `object`) {
           // url can be string or object containing href field
           url = url.href
+
+          // Apply any filters configured in gatsby-config.js. Filters
+          // can be any valid JSON API filter query string.
+          // See https://www.drupal.org/docs/8/modules/jsonapi/filtering
+          if (typeof filters === `object`) {
+            if (filters.hasOwnProperty(type)) {
+              url = url + `?${filters[type]}`
+            }
+          }
         }
 
         let d
@@ -194,12 +203,22 @@ exports.sourceNodes = async (
           }
           // Resolve w/ baseUrl if node.uri isn't absolute.
           const url = new URL(fileUrl, baseUrl)
+          // If we have basicAuth credentials, add them to the request.
+          const auth =
+            typeof basicAuth === `object`
+              ? {
+                  htaccess_user: basicAuth.username,
+                  htaccess_pass: basicAuth.password,
+                }
+              : {}
           fileNode = await createRemoteFileNode({
             url: url.href,
             store,
             cache,
             createNode,
             createNodeId,
+            parentNodeId: node.id,
+            auth,
           })
         } catch (e) {
           // Ignore

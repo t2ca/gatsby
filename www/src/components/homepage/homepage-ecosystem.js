@@ -1,24 +1,25 @@
 import React from "react"
 import PropTypes from "prop-types"
-import styled from "react-emotion"
+import styled from "@emotion/styled"
 
 import ArrowForwardIcon from "react-icons/lib/md/arrow-forward"
 
 import HomepageSection from "./homepage-section"
 import EcosystemSection from "../ecosystem/ecosystem-section"
-import {
-  EcosystemFeaturedItemsRootBase,
-  ListBase as EcosystemFeaturedItemsListBase,
-} from "../ecosystem/ecosystem-featured-items"
 import EcosystemFeaturedItem, {
   BlockLink as FeaturedItemBlockLink,
 } from "../ecosystem/ecosystem-featured-item"
+
+import {
+  HorizontalScroller,
+  HorizontalScrollerContent,
+} from "../shared/horizontal-scroller"
 
 import { EcosystemIcon } from "../../assets/mobile-nav-icons"
 import { PluginsIcon, StartersIcon } from "../../assets/ecosystem-icons"
 
 import { rhythm, options } from "../../utils/typography"
-import presets, { colors } from "../../utils/presets"
+import presets, { colors, space, radii } from "../../utils/presets"
 
 import { SCROLLER_CLASSNAME } from "../../utils/scrollers-observer"
 
@@ -26,25 +27,21 @@ const Sections = styled(`div`)`
   display: flex;
   flex-direction: column;
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     flex-direction: row;
     margin: 0 -8px;
-  }
-
-  ${presets.Desktop} {
-    margin: 0 1.5rem 0 2.5rem;
   }
 `
 
 const Section = styled(EcosystemSection)`
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
-  border-radius: ${presets.radiusLg}px;
-  margin-bottom: ${rhythm(presets.gutters.default / 2)};
-  padding: ${rhythm(options.blockMarginBottom)};
+  border-radius: ${radii[2]}px;
+  margin-bottom: ${rhythm(space[6])};
+  padding: ${rhythm(space[6])};
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     margin: 0 8px 0px;
-    padding: ${rhythm(options.blockMarginBottom)};
+    padding: ${rhythm(space[6])};
 
     :last-child {
       align-self: stretch;
@@ -54,74 +51,62 @@ const Section = styled(EcosystemSection)`
 
 const SubTitle = styled(`h3`)`
   color: ${colors.lemon};
-  font-size: 1.2rem;
-  margin-top: 2rem;
+  font-size: ${presets.scale[3]};
+  margin-bottom: ${rhythm(space[1])};
+  margin-top: ${rhythm(space[7])};
 
-  ${presets.Tablet} {
-    margin-left: 3rem;
-  }
-
-  ${presets.Desktop} {
-    margin-left: 6rem;
+  ${presets.Lg} {
+    margin-left: ${rhythm(space[9])};
+    margin-bottom: ${rhythm(space[4])};
   }
 `
 
-const FeaturedItems = styled(EcosystemFeaturedItemsRootBase)`
-  margin: 0 -${rhythm(presets.gutters.default / 2)};
+const FeaturedItems = styled(HorizontalScroller)`
+  margin: 0 -${rhythm(space[6])};
 
-  ${presets.Desktop} {
+  ${presets.Lg} {
     margin: 0;
-    margin-left: calc(3rem - (${rhythm(options.blockMarginBottom)}));
-    margin-right: 1rem;
-    overflow-x: auto;
-  }
-
-  ${presets.Hd} {
-    margin-right: 3rem;
+    overflow-x: visible;
   }
 `
 
-const FeaturedItemsList = styled(EcosystemFeaturedItemsListBase)`
-  padding: 0 calc(${rhythm(options.blockMarginBottom)} - 7px) 0;
-
-  ${presets.Desktop} {
+const FeaturedItemsList = styled(HorizontalScrollerContent)`
+  ${presets.Lg} {
     flex-wrap: wrap;
     margin: 0;
+    padding: 0;
     width: 100%;
   }
 `
 
 const FeaturedItem = styled(EcosystemFeaturedItem)`
-  margin: 0 6px 6px 0;
+  margin-right: ${rhythm(space[6])};
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     border-bottom: none;
-    margin: 0 6px 6px 0;
-    padding: 5px;
+    margin: ${rhythm(space[6])};
+    margin-top: 0;
+    margin-left: 0;
     width: 320px;
   }
 
-  ${presets.Desktop} {
-    flex-basis: 30%;
+  ${presets.Lg} {
+    flex-basis: 28%;
 
-    :nth-child(4) {
+    :nth-of-type(4) {
       margin-left: 8%;
     }
   }
 
   ${FeaturedItemBlockLink} {
-    padding-left: calc(${rhythm(3 / 4)} + 1.1rem);
+    padding-left: calc(${rhythm(space[6])} + 1.1rem);
     position: relative;
 
-    /* this ovveride the .main-body a style*/
-    box-shadow: none;
-    font-weight: normal;
-
-    ${presets.Tablet} {
-      border-radius: ${presets.radiusLg}px;
+    ${presets.Md} {
+      border-radius: ${radii[2]}px;
     }
 
-    ${presets.Desktop} {
+    ${presets.Lg} {
       :hover {
         background: ${colors.ui.whisper};
       }
@@ -130,7 +115,7 @@ const FeaturedItem = styled(EcosystemFeaturedItem)`
     :before {
       background: ${props =>
         props.item.type === `Starter` ? colors.skyLight : colors.accentLight};
-      border-radius: ${presets.radiusLg}px 0 0 ${presets.radiusLg}px;
+      border-radius: ${radii[2]}px 0 0 ${radii[2]}px;
       bottom: 0;
       content: "";
       left: 0;
@@ -145,9 +130,9 @@ const FeaturedItem = styled(EcosystemFeaturedItem)`
       color: ${props =>
         props.item.type === `Starter` ? colors.skyDark : colors.accentDark};
       font-family: ${options.headerFontFamily.join(`,`)};
-      font-size: 0.8rem;
+      font-size: ${presets.scale[1]};
       left: 0;
-      letter-spacing: 0.05em;
+      letter-spacing: ${presets.letterSpacings.tracked};
       position: absolute;
       transform: rotate(-90deg) translate(-0.5em, -0);
       transform-origin: top left;
@@ -166,6 +151,7 @@ const HomepageEcosystem = ({ featuredItems }) => (
         label: `Explore the Gatsby Ecosystem`,
         to: `/ecosystem/`,
         icon: ArrowForwardIcon,
+        tracking: `Plugins - Explore the Gatsby Ecosystem`,
       },
     ]}
     inverseStyle={true}

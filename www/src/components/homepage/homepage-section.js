@@ -1,53 +1,50 @@
 import React from "react"
 import PropTypes from "prop-types"
-import styled from "react-emotion"
+import styled from "@emotion/styled"
 
 import Button from "../button"
 
 import { rhythm, options } from "../../utils/typography"
-import { vP } from "../gutters"
-import presets, { colors } from "../../utils/presets"
+import presets, { colors, space } from "../../utils/presets"
 
 const ICON_SIZE = `32px`
 
 const HomepageSectionRoot = styled(`section`)`
-  background: ${props => (props.inverse ? colors.gatsby : `#fff`)};
+  background: ${props => (props.inverse ? colors.gatsbyDark : colors.white)};
   color: ${props => (props.inverse ? colors.ui.light : colors.gatsbyDark)};
-  margin: 0 -${rhythm(presets.gutters.default / 2)};
-  padding: ${rhythm(2)} ${rhythm(presets.gutters.default / 2)};
-  width: calc(100% + ${rhythm(presets.gutters.default)});
+  padding: ${rhythm(space[5])} ${rhythm(space[6])};
+  width: 100%;
 
-  ${presets.Hd} {
-    margin: 0 -${vP};
-    width: calc(100% + (${vP} * 2));
+  ${presets.Xl} {
+    margin: -1px 0;
+    padding: ${rhythm(space[5])} 5%;
   }
 
-  ${presets.VHd} {
-    padding: ${rhythm(2)} 5%;
+  ${presets.Xxl} {
+    padding: ${rhythm(space[7])} 8%;
   }
 `
-const Header = styled(`header`)`
-  ${presets.Tablet} {
-    margin-left: 3rem;
+export const Header = styled(`header`)`
+  ${presets.Md} {
     max-width: 30rem;
   }
 
-  ${presets.Desktop} {
-    margin-left: 6rem;
+  ${presets.Lg} {
+    margin-left: ${rhythm(space[9])};
   }
 `
 
-const Name = styled(`h3`)`
+export const Name = styled(`h3`)`
   align-items: center;
   color: ${props => (props.inverse ? colors.ui.light : colors.lilac)};
   display: flex;
-  font-size: 1rem;
+  font-size: ${presets.scale[2]};
   font-weight: normal;
   margin: 0;
   margin-left: calc(${ICON_SIZE} * -0.2);
   margin-bottom: 0.5em;
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     margin-left: calc(${ICON_SIZE} * -1.2);
   }
 `
@@ -55,38 +52,43 @@ const Name = styled(`h3`)`
 const Icon = styled(`span`)`
   display: block;
 
-  ${presets.Tablet} {
+  ${presets.Md} {
     margin-right: calc(${ICON_SIZE} / 5);
   }
 
   svg {
+    fill: transparent;
     height: ${ICON_SIZE};
     stroke: ${props => (props.inverse ? colors.ui.light : colors.lilac)};
     width: ${ICON_SIZE};
   }
 `
 
-const Title = styled(`h1`)`
+export const Title = styled(`h1`)`
   color: ${props => (props.inverse ? colors.lemon : colors.gatsby)};
-  font-size: 1.75rem;
+  font-size: ${presets.scale[6]};
   margin: 0;
-  margin-bottom: 0.5em;
 `
 
 const Introduction = styled(`p`)`
   color: ${props => (props.inverse ? colors.ui.light : colors.gatsbyDark)};
-  font-size: 1.125rem;
+  font-size: ${presets.scale[3]};
   font-family: ${options.headerFontFamily.join(`,`)};
-  margin-bottom: 0;
+  margin: 0;
+  margin-top: ${rhythm(4 / 5)};
 `
 
 const Actions = styled(`div`)`
   display: flex;
   flex-wrap: wrap;
-  margin-top: -${rhythm(1 / 4)};
+  margin: ${rhythm(space[4])} 0 ${rhythm(space[6])};
 
   > a {
-    margin: ${rhythm(1.2)} 0 ${rhythm(1.5)};
+    margin-right: ${rhythm(space[1])};
+  }
+
+  ${presets.Lg} {
+    margin: ${rhythm(space[4])} 0 ${rhythm(space[8])};
   }
 `
 
@@ -98,10 +100,11 @@ const HomepageSection = ({
   introduction,
   inverseStyle,
   links,
+  className,
 }) => (
-  <HomepageSectionRoot inverse={inverseStyle}>
-    <Header>
-      {sectionName && (
+  <HomepageSectionRoot inverse={inverseStyle} className={className}>
+    {sectionName && (
+      <Header>
         <Name inverse={inverseStyle}>
           {sectionIcon && (
             <Icon
@@ -111,23 +114,32 @@ const HomepageSection = ({
           )}
           {sectionName}
         </Name>
-      )}
-      {title && <Title inverse={inverseStyle}>{title}</Title>}
-      {introduction && (
-        <Introduction inverse={inverseStyle}>{introduction}</Introduction>
-      )}
-      <Actions>
-        {links.map((item, idx) => {
-          const { to, label, icon: Icon } = item
+        {title && <Title inverse={inverseStyle}>{title}</Title>}
+        {introduction && (
+          <Introduction inverse={inverseStyle}>{introduction}</Introduction>
+        )}
+        {links && (
+          <Actions>
+            {links.map((item, idx) => {
+              const { to, label, icon: Icon, secondary, tracking } = item
 
-          return (
-            <Button key={label} to={to} ondark small>
-              {label} {Icon && <Icon />}
-            </Button>
-          )
-        })}
-      </Actions>
-    </Header>
+              return (
+                <Button
+                  key={label}
+                  to={to}
+                  small
+                  ondark={inverseStyle ? true : false}
+                  secondary={secondary}
+                  tracking={tracking}
+                >
+                  {label} {Icon && <Icon />}
+                </Button>
+              )
+            })}
+          </Actions>
+        )}
+      </Header>
+    )}
     {children}
   </HomepageSectionRoot>
 )
@@ -140,6 +152,7 @@ HomepageSection.propTypes = {
   introduction: PropTypes.string,
   links: PropTypes.array,
   inverseStyle: PropTypes.bool,
+  className: PropTypes.string,
 }
 
 export default HomepageSection
